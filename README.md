@@ -10,6 +10,7 @@ https://www.notion.so/71894069da3b4bbba7c6f6c9854ec8f9
     ├── ./dataset                       //Datasets
     │   ├── dataset.csv     
     │   ├── temp_data.csv
+    │   ├── monthly_income.csv
     |
     ├── ./reuslt                        //De-identification Result
     |
@@ -21,4 +22,5 @@ https://www.notion.so/71894069da3b4bbba7c6f6c9854ec8f9
     |
     ├── generalization.py               //codes for generalization
     ├── statistical_processing.py       //codes for statistical-processing
+    ├── randomized.py                   //codes for randomized-processing
     |
