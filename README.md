@@ -12,7 +12,7 @@ https://www.notion.so/71894069da3b4bbba7c6f6c9854ec8f9
     │   ├── temp_data.csv
     │   ├── monthly_income.csv
     |
-    ├── ./reuslt                        //De-identification Result
+    ├── ./result                        //De-identification Result
     |
     ├── input_v1.py                     //csv input program - one by one
     ├── input_v2.py                     //csv input program - every csv files on the path
