@@ -1,8 +1,10 @@
+#무작위화 기술
 import pandas as pd
 import numpy as np
 # scikit-learn 모듈 설치 필요
 # pip install scikit-learn || conda install scikit-learn
 import sklearn
+from random import randint
 
 #잡음 추가
 def noise_add(df):
@@ -18,7 +20,7 @@ def noise_add(df):
     return num_list
 
 
-#순열 치환
+#순열 치환 - 1
 #전체 df를 받아옴
 def df_permutation (df):
 
@@ -43,10 +45,12 @@ def df_permutation (df):
 				# temp의 Data들을 랜덤하게 배치
         temp=sklearn.utils.shuffle(temp).reset_index(drop=True)
 
-				# 여기서 new_df를 temp_df.copy()로 카피하는 이유는 SettingWithCopyWarning이 발생했기 때문
+				# new_df를 temp_df.copy()로 카피하는 이유는 SettingWithCopyWarning이 발생했기 때문
 				# temp series를 list로 바꾸지 않으면 NaN값이 데이터 프레임에 추가됨(이유를 모르겠어서 리스트로 사용)
         val_list = temp.values.tolist()
         new_df = temp_df.copy()
+
+				# 데이터를 변경하고 변경 후로 따로 분리할 필요가 없다면 new_df[target] = val_list를 사용
         new_df[target + ' 변경 후'] = val_list
 
 				# final Dataframe에 결과를 차근차근 저장
@@ -54,6 +58,46 @@ def df_permutation (df):
         final = pd.concat([final, new_df], ignore_index = True)
 
     return final
+
+#순열 치환 - 2
+def permute(rdr):
+    # 기준 값 (표에서는 시도)
+    standard = input("standard : ")
+
+    # 1) 해당 열 선택  2) 데이터프레임 -> 리스트
+    del_overlap = rdr[standard].tolist()
+
+    # 값에 대한 개수를 저장하는 리스트
+    num_list = [0 for i in range(max(del_overlap))]
+
+    # 값에 매핑되는 개수 계산
+    for i in range(len(del_overlap)):
+        num_list[del_overlap[i] - 1] += 1
+    # 인덱스로 만들기
+    for i in range(1, len(num_list)):
+        num_list[i] += num_list[i - 1]
+    # 기준이 되는 값에 따라서 정렬 #sample1
+    rdr = rdr.sort_values(by=standard, ascending=True).reset_index(drop=True)
+    # 셔플해야 할 값 (표에서는 월 소득)
+    shf = input("exception : ")
+
+    df = []
+
+    # num_list에 정렬된 값에 따라서 shuffle
+    df.extend(rdr.loc[0:num_list[0] - 1, shf].sample(frac=1).reset_index(drop=True).tolist())
+    for i in range(0, len(num_list) - 1):
+        df.extend(rdr.loc[num_list[i]:num_list[i + 1] - 1, shf].sample(frac=1).reset_index(drop=True).tolist())
+
+    # 리스트 -> 데이터프레임
+    df = pd.DataFrame(df, columns=[shf + ' 변경 후'])
+
+    # 원래 데이터프레임 + 새로운 데이터프레임
+    fin = pd.concat([rdr, df], axis=1)
+
+    return fin     # sample2 
+
+
+
 
 # 토큰화
 def token_maker(len):
@@ -81,10 +125,3 @@ def tokenizer(df):
 def randommaker(num):   # num의 단위 : byte
     rand = secrets.token_hex(num)
 
-
-#확인을 위한 코드
-df = pd.read_csv("./dataset/monthly_income.csv", encoding="EUC-KR")
-
-print(df)
-df = df_permutation(df)
-print(df)
