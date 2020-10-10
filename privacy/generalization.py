@@ -5,7 +5,7 @@ from random import randint
 
 
 # float유형을 반올림해서 int로 변경하는 함수
-def round_float_to_int(df):
+def df_round_float_to_int(df):
     return df.astype(int)
 
 # 일반 반올림 기법, df는 데이터 프레임, num은 자리 수
@@ -36,6 +36,8 @@ def general_floor(df, num):
 
 
 # random rounding 구현을 위해서 끌어온 함수
+def df_max(df):
+    return df.max(axis = 0, skipna = True)
 def df_min(df):
     return df.min(axis = 0, skipna = True)
 
@@ -58,6 +60,9 @@ def df_random_rounding(df):
     else:
         return general_floor(df, -1 * rand_num)
 
+
+#def control_rounding():
+
 # 문자를 바꿔주는 replace 함수
 def df_char_replace(df):
     word_before = input("word before: ")
@@ -74,6 +79,8 @@ def df_masking(df):
     
     return df.str.slice_replace(start = masking_start, stop = masking_end, repl = masking_symbol)
 
+
+#문자열 mapping 상위 개념으로 범주화
 def df_mapping(df):
     df_map = dict()
     key = None
@@ -93,8 +100,3 @@ def df_mapping(df):
     return df.replace(np.nan, key)
 
 
-
-# 함수 구현을 확인하기 위한 코드
-df = pd.read_csv('./dataset/dataset.csv', encoding = "EUC-KR")
-
-print(df)
