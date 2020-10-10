@@ -24,3 +24,9 @@ https://www.notion.so/71894069da3b4bbba7c6f6c9854ec8f9
     ├── randomized.py                   //codes for randomized-processing
     ├── main.py                         //codes for input and output csv
     |
+
+
+# Tools
+- python
+- pandas
+- ARX
