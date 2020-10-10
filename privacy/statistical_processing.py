@@ -28,28 +28,3 @@ def df_std(df):
 def df_var(df):
     return df.var(axis = 0, skipna = True)
 
-
-
-#확인용 연습 코드
-df = pd.read_csv('./dataset/dataset.csv', encoding = "EUC-KR")
-
-print(df)
-
-dataset_average = df_average(df['age'])
-print("average", dataset_average)
-
-dataset_max = df_max(df['age'])
-print("max", dataset_max)
-
-dataset_min = df_min(df['age'])
-print("min", dataset_min)
-
-dataset_median = df_median(df['age'])
-print("median", dataset_median)
-
-dataset_std = df_std(df['age'])
-print("std", dataset_std)
-
-dataset_var = df_var(df['age'])
-print("var", dataset_var)
-
